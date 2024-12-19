@@ -1,0 +1,300 @@
+<?php
+// Start the session to access session variables
+session_start();
+
+// Assuming the user's name is stored in the session after login
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Default to 'Guest' if no user is logged in
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Reel - Your Cooking Buddy</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff; /* Remove background image */
+            color: #333; /* Default text color */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #4CAF50; /* Fresh Green */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            color: white;
+        }
+
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        header nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+        }
+
+        header .search-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Search Box Styles */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input {
+            background-color: #388E3C; /* Darker Green for input */
+            border: 2px solid #4CAF50; /* Border matching the header */
+            padding: 8px 35px 8px 10px;
+            color: white;
+            font-size: 16px;
+            border-radius: 20px;
+            outline: none;
+            width: 250px;
+        }
+
+        .search-container input::placeholder {
+            color: #a8d5a2; /* Light green placeholder text */
+        }
+
+        .search-container button {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+         /* Profile Icon Styles */
+        .profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile .profile-icon {
+            color: white;
+            font-size: 24px;
+        }
+
+        .profile .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            z-index: 10;
+        }
+
+        .profile .dropdown a {
+            display: block;
+            padding: 10px;
+            color: #4CAF50; /* Green text */
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .profile .dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .profile:hover .dropdown {
+            display: block;
+        }
+
+
+        /* Content Section */
+        .content {
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            color: #4CAF50; /* Green header text */
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            color: #333; /* Dark text for better readability */
+            font-size: 20px;
+        }
+
+        /* Recipe Cards Section */
+        .recipe-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .recipe-card {
+            width: 220px;
+            height: 320px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-10px); /* Slight hover effect */
+        }
+
+        .recipe-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .recipe-card .recipe-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .recipe-card .recipe-info h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .recipe-card .recipe-info p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .recipe-card .recipe-info a {
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .recipe-card .recipe-info a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <!-- Logo and Navigation -->
+        <div class="logo">
+            <img src="recipe-photo.png" alt="Logo">
+            <nav>
+                <a href="dashboard.html">Home</a>
+                <a href="create.html">Post</a>
+                <a href="recipe.html">Recipe</a> <!-- Recipe link -->
+            </nav>
+        </div>
+
+        <!-- Search Box and Profile Section -->
+        <div class="search-profile">
+            <div class="search-container">
+                <input type="text" placeholder="Search recipes...">
+                <button>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="profile">
+                <i class="fas fa-user-circle profile-icon"></i>
+                <div class="dropdown">
+                    <a href="profile.html">Profile</a>
+                    <a href="logout.php">Log Out</a>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Explore Recipes</h1>
+        <p>Discover amazing recipes that you can try at home. Here are some of our favorite dishes:</p>
+
+        <!-- Recipe Cards Section -->
+        <div class="recipe-cards">
+            <!-- Recipe 1 -->
+            <div class="recipe-card">
+                <img src="recipe1-thumbnail.jpg" alt="Recipe 1">
+                <div class="recipe-info">
+                    <h3>Recipe 1</h3>
+                    <p>A delicious recipe to try at home.</p>
+                    <a href="recipe1.html">View Recipe</a>
+                </div>
+            </div>
+
+            <!-- Recipe 2 -->
+            <div class="recipe-card">
+                <img src="recipe2-thumbnail.jpg" alt="Recipe 2">
+                <div class="recipe-info">
+                    <h3>Recipe 2</h3>
+                    <p>A healthy and quick dish for lunch.</p>
+                    <a href="recipe2.html">View Recipe</a>
+                </div>
+            </div>
+
+            <!-- Recipe 3 -->
+            <div class="recipe-card">
+                <img src="recipe3-thumbnail.jpg" alt="Recipe 3">
+                <div class="recipe-info">
+                    <h3>Recipe 3</h3>
+                    <p>Perfect for a cozy dinner with family.</p>
+                    <a href="recipe3.html">View Recipe</a>
+                </div>
+            </div>
+
+            <!-- Recipe 4 -->
+            <div class="recipe-card">
+                <img src="recipe4-thumbnail.jpg" alt="Recipe 4">
+                <div class="recipe-info">
+                    <h3>Recipe 4</h3>
+                    <p>A sweet dessert to end your meal on a high note.</p>
+                    <a href="recipe4.html">View Recipe</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

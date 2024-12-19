@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Sharing Platform - Sign Up</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Video -->
+  <div class="background-video-container">
+    <video autoplay muted loop id="background-video">
+      <source src="background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Sign Up Form -->
+  <div class="login-container">
+    <h2>Sign Up for Recipe Share</h2>
+    <form id="signupForm">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Choose a username" required>
+      </div>
+      <div class="input-group">
+        <label for="email">E-mail</label>
+        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required>
+      </div>
+      <div class="error-message" id="error-message"></div>
+      <button type="submit" class="btn">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form from submitting normally
+
+      var username = document.getElementById('username').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      // Simple validation
+      if (username === "" || email === "" || password === "") {
+        document.getElementById('error-message').innerText = "All fields are required.";
+      } else {
+        // For demonstration, we'll alert success
+        alert("Sign up successful! Welcome, " + username + "!");
+        // You can redirect to another page here
+        // window.location.href = "welcome.html";
+      }
+    });
+  </script>
+</body>
+</html>
