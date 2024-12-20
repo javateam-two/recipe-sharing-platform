@@ -166,41 +166,41 @@
         const errorImage = document.getElementById('error-image');
 
         // Fetch and display recipes
-        if (query) {
-            // Fetch data from the SearchServlet
-            fetch(`SearchServlet?query=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        resultsMessage.textContent = `Showing results for "${query}":`;
-                        data.forEach(recipe => {
-                            // Create recipe card
-                            const card = document.createElement('div');
-                            card.classList.add('recipe-card');
-                            card.innerHTML = `
-                                <img src="${recipe.imageURL}" alt="${recipe.name}">
-                                <div class="recipe-info">
-                                    <h3>${recipe.name}</h3>
-                                    <p>${recipe.description}</p>
-                                    <a href="recipe.html?id=${recipe.id}">View Recipe</a>
-                                </div>
-                            `;
-                            recipeCards.appendChild(card);
-                        });
-                    } else {
-                        resultsMessage.textContent = `No results found for "${query}".`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching recipes:', error);
-
-                    // Show error image and message
-                    errorImage.style.display = 'block';
-                    resultsMessage.textContent = 'An error occurred while fetching recipes.';
+if (query) {
+    fetch(`SearchServlet?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                resultsMessage.textContent = `Showing results for "${query}":`;
+                data.forEach(recipe => {
+                    // Create recipe card
+                    const card = document.createElement('div');
+                    card.classList.add('recipe-card');
+                    card.innerHTML = `
+                        <img src="${recipe.imageURL}" alt="${recipe.name}">
+                        <div class="recipe-info">
+                            <h3>${recipe.name}</h3>
+                            <p>${recipe.description}</p>
+                            <a href="recipe.html?id=${recipe.id}">View Recipe</a>
+                        </div>
+                    `;
+                    recipeCards.appendChild(card);
                 });
-        } else {
-            resultsMessage.textContent = 'No search query provided.';
-        }
+            } else {
+                resultsMessage.textContent = `No results found for "${query}".`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching recipes:', error);
+
+            // Show error image and message
+            errorImage.style.display = 'block';
+            resultsMessage.textContent = 'An error occurred while fetching recipes.';
+        });
+} else {
+    resultsMessage.textContent = 'No search query provided.';
+}
+
     </script>
 </body>
 </html>
